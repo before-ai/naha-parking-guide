@@ -2,7 +2,7 @@
 
 那覇・国際通り周辺に車で行く人のための、失敗しにくい駐車場の探し方。検索流入を Punilo(https://punilo.com)に送る入口として作った(層2: 営業の入口を自動化する仕組みの1本目)。
 
-公開先: (まだ。`../site-factory/publish.sh naha-parking-guide` で https://before-ai.github.io/naha-parking-guide/ に出る)
+公開先: https://before-ai.github.io/naha-parking-guide/ (GitHub Pages、main の docs/ を配信。push すると1〜2分で反映)
 
 ## 動かす
 
