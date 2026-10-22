@@ -65,3 +65,35 @@ button.ghost { background: transparent; color: var(--accent); border-color: var(
 .list li:first-child { border-top: 0; }
 .foot { font-size: 0.85rem; }
 code { font-size: 0.9em; }
+
+/* --- 国際通り駐車場ガイド 追加分 --- */
+.eyebrow { margin: 0; font-size: 0.8rem; letter-spacing: 0.12em; color: var(--muted); }
+.top h1 { font-size: 1.8rem; }
+.lead { margin: 6px 0 12px; max-width: 40em; }
+.cta-row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin: 12px 0 0; }
+.cta {
+  display: inline-block; padding: 12px 18px; border-radius: 10px;
+  background: var(--accent); color: var(--accent-fg); text-decoration: none; font-weight: 600; min-height: 44px;
+}
+.cta.ghost { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
+.small { font-size: 0.85rem; }
+.steps { padding-left: 1.3em; margin: 0; }
+.steps > li { margin: 10px 0; }
+.src { display: block; font-size: 0.8rem; color: var(--muted); margin-top: 4px; }
+.check { margin: 6px 0 0; padding-left: 1.2em; }
+.areas { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; margin-top: 8px; }
+.area { border: 1px solid var(--line); border-radius: 10px; padding: 12px; }
+.area h3 { margin: 0 0 6px; font-size: 1rem; }
+.area p { margin: 4px 0; font-size: 0.95rem; }
+.checks { list-style: none; padding: 0; margin: 0; }
+.checks li { padding: 8px 0; border-top: 1px solid var(--line); }
+.checks li:first-child { border-top: 0; }
+.checks li.done label { color: var(--muted); text-decoration: line-through; }
+.checks input { width: auto; margin-right: 6px; }
+.checks label { display: flex; gap: 6px; align-items: flex-start; margin: 0; cursor: pointer; }
+details { border-top: 1px solid var(--line); padding: 8px 0; }
+details:first-of-type { border-top: 0; }
+summary { cursor: pointer; font-weight: 600; }
+details p { margin: 6px 0 0; }
+.biz { border-left: 4px solid var(--accent); }
+.foot a { color: var(--accent); }

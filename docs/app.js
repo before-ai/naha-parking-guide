@@ -1,4 +1,4 @@
-// 国際通り駐車場ガイド の画面の動き。ビルド不要、このファイルを書き換えるだけ。
+// 国際通り駐車場ガイド の画面の動き。ビルド不要。
 
 // 端末内保存(ユーザーのデータはサーバーに送らない)
 const store = {
@@ -6,13 +6,6 @@ const store = {
   load() { try { return JSON.parse(localStorage.getItem(this.key)) ?? {}; } catch { return {}; } },
   save(obj) { try { localStorage.setItem(this.key, JSON.stringify(obj)); } catch {} },
 };
-
-// 固定データは docs/data/*.json に置き、ここで読む
-async function loadData(name) {
-  const res = await fetch(`data/${name}.json`, { cache: "no-cache" });
-  if (!res.ok) throw new Error(`${name}.json を読めません (${res.status})`);
-  return res.json();
-}
 
 function el(tag, attrs = {}, ...children) {
   const node = document.createElement(tag);
@@ -25,20 +18,37 @@ function el(tag, attrs = {}, ...children) {
   return node;
 }
 
-async function render() {
+const CHECKS = [
+  { id: "sunday", text: "日曜の12〜18時に本線を通る予定ではない(通るなら裏通りか周辺エリアに変更)" },
+  { id: "entrance", text: "停める駐車場の入口の向きと、そこまでの一方通行を地図で見た" },
+  { id: "rate", text: "看板で時間あたりの料金を見た(平日と土日祝の違いも)" },
+  { id: "max", text: "最大料金があるか、効く時間帯はいつまでかを見た" },
+  { id: "where", text: "停めた場所を記録した(階・番号・目印、または Punilo で記録)" },
+];
+
+function render() {
   const app = document.getElementById("app");
   app.replaceChildren();
   const state = store.load();
-  const data = await loadData("sample");
-  app.append(
-    el("p", {}, `サンプルデータ: ${data.items.length} 件`),
-    el("ul", { class: "list" }, ...data.items.map((it) => el("li", {}, it.name))),
-    el("button", { onclick: () => { state.clicks = (state.clicks ?? 0) + 1; store.save(state); render(); } },
-      `保存のテスト(${state.clicks ?? 0} 回)`),
+  const done = new Set(state.done ?? []);
+  const list = el("ul", { class: "checks" },
+    ...CHECKS.map((c) => {
+      const box = el("input", { type: "checkbox", id: `chk-${c.id}` });
+      box.checked = done.has(c.id);
+      box.addEventListener("change", () => {
+        if (box.checked) done.add(c.id); else done.delete(c.id);
+        store.save({ ...state, done: [...done] });
+        render();
+      });
+      return el("li", { class: done.has(c.id) ? "done" : "" }, el("label", { for: `chk-${c.id}` }, box, " ", c.text));
+    }),
   );
+  const n = done.size;
+  const status = el("p", { class: "muted small" },
+    n === CHECKS.length ? "全部確認できました。いってらっしゃい。" : `${n} / ${CHECKS.length} 確認済み`);
+  const reset = el("button", { class: "ghost", onclick: () => { store.save({ ...state, done: [] }); render(); } }, "リセット");
+  app.append(list, el("div", { class: "row" }, status, reset));
 }
 
-document.getElementById("updated").textContent = "更新: 2026-10-22";
-render().catch((e) => {
-  document.getElementById("app").textContent = `読み込みに失敗しました: ${e.message}`;
-});
+document.getElementById("updated").textContent = "最終更新 2026-10-22";
+render();
