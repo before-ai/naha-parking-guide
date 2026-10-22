@@ -1,0 +1,9 @@
+{
+  "name": "国際通り駐車場ガイド",
+  "short_name": "国際通り駐車場ガイド",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f7f8fa",
+  "theme_color": "#0e5a8a",
+  "lang": "ja"
+}
